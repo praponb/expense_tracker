@@ -79,7 +79,7 @@ class SummaryScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Total: \$${monthTotal.toStringAsFixed(2)}',
+                            'Total: ฿${monthTotal.toStringAsFixed(2)}',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -103,7 +103,7 @@ class SummaryScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '\$${categoryEntry.value.toStringAsFixed(2)}',
+                                  '฿${categoryEntry.value.toStringAsFixed(2)}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),

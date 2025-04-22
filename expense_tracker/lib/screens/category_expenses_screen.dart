@@ -36,7 +36,7 @@ class CategoryExpensesScreen extends StatelessWidget {
               title: Text(expense.description),
               subtitle: Text(expense.date.toString().split(' ')[0]),
               trailing: Text(
-                '\$${expense.amount.toStringAsFixed(2)}',
+                '฿${expense.amount.toStringAsFixed(2)}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

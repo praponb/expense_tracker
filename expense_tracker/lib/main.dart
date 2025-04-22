@@ -266,7 +266,7 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '\$${expense.amount.toStringAsFixed(2)}',
+                          '฿${expense.amount.toStringAsFixed(2)}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
