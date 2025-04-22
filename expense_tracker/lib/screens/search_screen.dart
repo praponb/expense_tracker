@@ -85,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       '${expense.category} - ${expense.date.toString().split(' ')[0]}',
                     ),
                     trailing: Text(
-                      '\$${expense.amount.toStringAsFixed(2)}',
+                      '฿${expense.amount.toStringAsFixed(2)}',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
