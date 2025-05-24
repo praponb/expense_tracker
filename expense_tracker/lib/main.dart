@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'models/expense.dart';
+import 'models/category.dart';
 import 'screens/search_screen.dart';
 import 'screens/summary_screen.dart';
+import 'screens/settings_screen.dart';
 import 'services/database_service.dart';
 
 void main() {
@@ -42,26 +44,29 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
   DateTime _selectedDate = DateTime.now();
   String? _selectedCategory;
   final _databaseService = DatabaseService();
-
-  final List<String> _categories = [
-    'Food',
-    'Transportation',
-    'Credit Card',
-    'Home',
-    'Medicine',
-    'Other',
-  ];
+  List<Category> _categories = [];
 
   @override
   void initState() {
     super.initState();
     _loadExpenses();
+    _loadCategories();
   }
 
   Future<void> _loadExpenses() async {
     final expenses = await _databaseService.getExpenses();
     setState(() {
       _expenses.addAll(expenses);
+    });
+  }
+
+  Future<void> _loadCategories() async {
+    final categories = await _databaseService.getCategories();
+    setState(() {
+      _categories = categories;
+      if (_categories.isNotEmpty && _selectedCategory == null) {
+        _selectedCategory = _categories[0].name;
+      }
     });
   }
 
@@ -72,7 +77,7 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
         description: _descriptionController.text,
         amount: double.parse(_amountController.text),
         date: _selectedDate,
-        category: _selectedCategory ?? _categories[0],
+        category: _selectedCategory ?? _categories[0].name,
       );
 
       await _databaseService.insertExpense(expense);
@@ -183,10 +188,10 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
           DropdownButtonFormField<String>(
             value: _selectedCategory,
             decoration: const InputDecoration(labelText: 'Category'),
-            items: _categories.map((String category) {
+            items: _categories.map((Category category) {
               return DropdownMenuItem<String>(
-                value: category,
-                child: Text(category),
+                value: category.name,
+                child: Text(category.name),
               );
             }).toList(),
             onChanged: (String? newValue) {
@@ -219,6 +224,18 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
         title: const Text('Expense Tracker'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
+              _loadCategories();
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.summarize),
             onPressed: () {
